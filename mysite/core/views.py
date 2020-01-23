@@ -22,12 +22,13 @@ def delete_report(request, pk):
 
 def download_file(request, pk):
     # fill these variables with real values
-    file = open('testfile.txt', 'a+')
+    file = open('testfile{}.txt'.format(pk), 'a+')
     report = get_object_or_404(Report, pk=pk)
     file.write(report.name)
-    response = HttpResponse(file)
+    file.close()
+    response = HttpResponse('testfile{}.txt'.format(pk))
 
-    response['Content-Disposition'] = "attachment; filename=testfile.txt"
+    response['Content-Disposition'] = "attachment; filename=testfile{}.txt".format(pk)
     return response
 
 
